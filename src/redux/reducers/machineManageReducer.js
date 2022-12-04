@@ -8,10 +8,12 @@ const initialState = {
 const machineManageReducer = (state = initialState, action) => {
     switch (action.type) {
         case "LOAD_INITIAL_DATA":
-            // need to load inital data from async storage and set store
+            // need to load inital data
             return {
                 ...state,
-                kycStatus: action.payload,
+                machineTypeUniqueIndex: action.payload.machineTypeUniqueIndex || 0,
+                machineTypes: action.payload.machineTypes || [],
+                machinesByHash: action.payload.machinesByHash || {},
             };
         case "ADD_MACHINE_TYPE":
             machineTypeUniqueIndex++;

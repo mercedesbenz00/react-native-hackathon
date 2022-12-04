@@ -82,11 +82,11 @@ const App = () => {
   });
   const saveInfo = async () => {
     await AsyncStorage.setItem('machines', JSON.stringify(machines));
-    await AsyncStorage.setItem('machinesType', JSON.stringify(machineTypes));
+    await AsyncStorage.setItem('machineTypes', JSON.stringify(machineTypes));
   };
   const loadInfo = async () => {
     const data1=await AsyncStorage.getItem('machines');
-    const data2=await AsyncStorage.getItem('machinesType');
+    const data2=await AsyncStorage.getItem('machineTypes');
     console.log("data0000------", JSON.parse(data1), JSON.parse(data2))
   };
   return (
