@@ -41,7 +41,7 @@ const CategoryEdit = ({title, attributes, onItemDelete, onDelete}: Props) => {
       <MenuTrigger text='Select action' />
       <MenuOptions>
         <MenuOption onSelect={() =>{}} >
-          <Text style={{color: 'red'}}>Delete</Text>
+          <Text style={styles.menuText}>Delete</Text>
         </MenuOption>
       </MenuOptions>
     </Menu>
@@ -82,6 +82,10 @@ const styles = StyleSheet.create({
   modelText: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#ffffff'
+  },
+  menuText: {
+    fontSize: 18,
     color: '#ffffff'
   }
 });
