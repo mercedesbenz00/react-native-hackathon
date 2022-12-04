@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {Dimensions} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   StyleSheet,
@@ -13,12 +14,18 @@ import {
   updateMachine,
   deleteMachine,
 } from './../redux/actions/machineManageAction';
-
+const width = Dimensions.get('window').width;
 interface Props {
   category: any;
 }
 
 const CategoryDetail = ({category}: Props) => {
+  const [pad, setPad] = useState(false);
+  useEffect(() => {
+    if (width > 768) {
+      setPad(true);
+    }
+  }, []);
   const machines = useSelector(state => state.machineManage.machinesByHash);
   const dispatch = useDispatch();
 
@@ -44,7 +51,7 @@ const CategoryDetail = ({category}: Props) => {
                         emptyMachine[attributeType.name] = false;
                         break;
                       case 'Date':
-                        emptyMachine[attributeType.name] = '1900-01-01';
+                        emptyMachine[attributeType.name] = new Date();
                         break;
                     }
                   });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -9,14 +9,19 @@ import {
 } from 'react-native';
 import {TextInput} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
+import moment from 'moment';
+
 interface Props {
   type: any;
   data: Array<any>;
   onChangeValue: (field: string, value: any) => void;
   onDelete: () => void;
 }
+let dateIndex = -1;
 
 const MachineEdit = ({type, data, onChangeValue, onDelete}: Props) => {
+  const [dateVisible, setDateVisible] = useState(false);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{data[type.titleField] || 'UNNAMED'}</Text>
@@ -64,20 +69,33 @@ const MachineEdit = ({type, data, onChangeValue, onDelete}: Props) => {
         }
         if (item.type == 'Date') {
           return (
-            <View key={index} style={styles.datebox}>
+            <TouchableOpacity
+              onPress={() => {
+                dateIndex = index;
+                setDateVisible(true);
+              }}
+              key={index}
+              style={styles.datebox}>
               <Text style={styles.checkboxText}>{item.name}:</Text>
-              <Text style={styles.checkboxText}>{data[item.name]}:</Text>
-              <DatePicker
-                modal
-                open={true}
-                date={new Date()}
-                onConfirm={date => {}}
-                onCancel={() => {}}
-              />
-            </View>
+              <Text style={styles.checkboxText}>
+                {moment(data[item.name]).format('YYYY-MM-DD')}
+              </Text>
+            </TouchableOpacity>
           );
         }
       })}
+      <DatePicker
+        modal
+        open={dateVisible}
+        date={new Date()}
+        onConfirm={date => {
+          setDateVisible(false);
+          onChangeValue(type.attributeTypes[dateIndex].name, date);
+        }}
+        onCancel={() => {
+          setDateVisible(false);
+        }}
+      />
       <TouchableOpacity
         onPress={() => {
           onDelete();
@@ -129,7 +147,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#333333',
     borderRadius: 5,
-    height: 50
+    height: 50,
   },
   image: {
     width: 18,

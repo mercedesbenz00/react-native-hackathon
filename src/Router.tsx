@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -6,7 +6,6 @@ import Dashboard from './screens/Dashborad';
 import Categories from './screens/Categories';
 import CategoryDetail from './screens/CategoryDetail';
 import {MenuProvider} from 'react-native-popup-menu';
-import AsyncStorage from '@react-native-community/async-storage';
 import {loadInfo} from './redux/actions/machineManageAction';
 const Drawer = createDrawerNavigator();
 
