@@ -16,12 +16,12 @@ const machineManageReducer = (state = initialState, action) => {
                 machinesByHash: action.payload.machinesByHash || {},
             };
         case "ADD_MACHINE_TYPE":
-            machineTypeUniqueIndex++;
+            state.machineTypeUniqueIndex++;
             let newMachineType = action.payload;
-            newMachineType.id = machineTypeUniqueIndex.toString();
-            if (!machineType.titleField) {
-                if (machineType.attributeTypes.length > 0) {
-                    machineType.titleField = machineType.attributeTypes[0].name;
+            newMachineType.id = state.machineTypeUniqueIndex.toString();
+            if (!newMachineType.titleField) {
+                if (newMachineType.attributeTypes.length > 0) {
+                    newMachineType.titleField = newMachineType.attributeTypes[0].name;
                 }
             }
             return {
@@ -65,26 +65,36 @@ const machineManageReducer = (state = initialState, action) => {
             return {
                 ...state,
                 machinesByHash: {
-                    ...machinesByHash,
+                    ...state.machinesByHash,
                     [action.type_id]: [
-                        ...state.machinesByHash[action.type_id],
-                        ...action.payload
+                        action.payload,
+                        ...state.machinesByHash[action.type_id]
                     ]
                 }
             };
         case "UPDATE_MACHINE":
-            if (state.machinesByHash[action.type_id].length > action.index) {
-                state.machinesByHash[action.type_id][action.index] = action.payload;
-            }
-            return {
-                ...state
-            };
-        case "DELETE_MACHINE":
-            if (state.machinesByHash[action.type_id].length > action.index) {
-                state.machinesByHash[action.type_id].splice(action.index, 1);
+            let machineInfo = [...state.machinesByHash[action.type_id]];
+            if (machineInfo.length > action.index) {
+                machineInfo[action.index] = action.payload;
             }
             return {
                 ...state,
+                machinesByHash: {
+                    ...state.machinesByHash,
+                    [action.type_id]: machineInfo
+                }
+            };
+        case "DELETE_MACHINE":
+            let machineInfoToDelete = [...state.machinesByHash[action.type_id]];
+            if (machineInfoToDelete.length > action.index) {
+                machineInfoToDelete.splice(action.index, 1);
+            }
+            return {
+                ...state,
+                machinesByHash: {
+                    ...state.machinesByHash,
+                    [action.type_id]: machineInfoToDelete
+                }
             };
         default:
             return state;

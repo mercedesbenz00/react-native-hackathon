@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     borderColor: '#999999',
     borderRadius: 5,
     marginHorizontal: 5,
-    elevation: 1,
+    // elevation: 1,
   },
   textInput: {flex: 1},
 });

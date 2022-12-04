@@ -35,7 +35,7 @@ export function updateMachineType(id, data) {
       });
 
       const { machineTypes, machineTypeUniqueIndex } = getState().machineManage;
-      await saveMachineTypes(machineTypes, machineTypeUniqueIndex);
+      saveMachineTypes(machineTypes, machineTypeUniqueIndex);
     };
   } catch (error) {
     console.log(error);
@@ -84,39 +84,41 @@ export function addMachine(type_id, data) {
         payload: data,
       });
 
-      const { machines } = getState().machineManage;
-      await saveMachines(machines);
+      const { machinesByHash } = getState().machineManage;
+      await saveMachines(machinesByHash);
     };
   } catch (error) {
     console.log(error);
   }
 }
-export function updateMachine(index, data) {
+export function updateMachine(type_id, index, data) {
   try {
     return async (dispatch, getState) => {
       dispatch({
         type: 'UPDATE_MACHINE',
+        type_id: type_id,
         index: index,
         payload: data,
       });
 
-      const { machines } = getState().machineManage;
-      await saveMachines(machines);
+      const { machinesByHash } = getState().machineManage;
+      await saveMachines(machinesByHash);
     };
   } catch (error) {
     console.log(error);
   }
 }
-export function deleteMachine(index) {
+export function deleteMachine(type_id, index) {
   try {
     return async (dispatch, getState) => {
       dispatch({
         type: 'DELETE_MACHINE',
+        type_id,
         index: index,
       });
 
-      const { machines } = getState().machineManage;
-      await saveMachines(machines);
+      const { machinesByHash } = getState().machineManage;
+      await saveMachines(machinesByHash);
     };
   } catch (error) {
     console.log(error);

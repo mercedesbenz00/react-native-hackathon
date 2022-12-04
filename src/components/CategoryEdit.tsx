@@ -11,13 +11,27 @@ import {
 
 interface Props {
   title: string;
+  titleField: string;
   attributes: Array<any>;
-  onItemDelete: (index: string) => void;
-  onAddNewItem: () => void;
+  onChnageTitle: (text: string) => void;
+  onField: (text: string) => void;
+  onChangeText: (text: string, index: number) => void;
+  onItemDelete: (index: number) => void;
+  onAddNewItem: (type: string) => void;
   onDelete: () => void;
 }
 
-const CategoryEdit = ({title, attributes, onItemDelete, onDelete}: Props) => {
+const CategoryEdit = ({
+  title,
+  titleField,
+  attributes,
+  onField,
+  onChnageTitle,
+  onChangeText,
+  onAddNewItem,
+  onItemDelete,
+  onDelete,
+}: Props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
@@ -26,41 +40,85 @@ const CategoryEdit = ({title, attributes, onItemDelete, onDelete}: Props) => {
         label="Category Name"
         mode="outlined"
         value={title}
-        onChangeText={text => {}}
+        onChangeText={text => {
+          onChnageTitle(text);
+        }}
       />
       {attributes.map((item, index) => {
         return (
           <AttributeEditBox
+            key={index}
             type={item.type}
             title="Field"
             text={item.name}
-            onChangeValue={() => {}}
-            onDelete={() => {}}
+            onChangeValue={text => {
+              onChangeText(text, index);
+            }}
+            onDelete={() => {
+              onItemDelete(index);
+            }}
           />
         );
       })}
-      <TouchableOpacity style={styles.modelButton}>
-        <Text style={styles.modelText}>TITLE FILED: MODEL</Text>
-      </TouchableOpacity>
+      <Menu>
+        <MenuTrigger>
+          <View style={styles.menuFiled}>
+            <Text style={styles.menuFiledText}>
+              TITLE FIELD: {titleField == '' ? 'UNNAMED FIELD' : titleField}
+            </Text>
+          </View>
+        </MenuTrigger>
+        <MenuOptions>
+          {attributes.map((item, index) => {
+            if (item.name !== '') {
+              return (
+                <MenuOption
+                  key={index}
+                  onSelect={() => {
+                    onField(item.name);
+                  }}>
+                  <Text style={styles.menuText}>{item.name}</Text>
+                </MenuOption>
+              );
+            }
+          })}
+        </MenuOptions>
+      </Menu>
       <View style={styles.rowView}>
         <Menu style={styles.menu}>
           <MenuTrigger text="ADD NEW FIELD" />
           <MenuOptions>
-            <MenuOption onSelect={() => {}}>
+            <MenuOption
+              onSelect={() => {
+                onAddNewItem('Text');
+              }}>
               <Text style={styles.menuText}>Text</Text>
             </MenuOption>
-            <MenuOption onSelect={() => {}}>
+            <MenuOption
+              onSelect={() => {
+                onAddNewItem('Checkbox');
+              }}>
               <Text style={styles.menuText}>Checkbox</Text>
             </MenuOption>
-            <MenuOption onSelect={() => {}}>
+            <MenuOption
+              onSelect={() => {
+                onAddNewItem('Date');
+              }}>
               <Text style={styles.menuText}>Date</Text>
             </MenuOption>
-            <MenuOption onSelect={() => {}}>
+            <MenuOption
+              onSelect={() => {
+                onAddNewItem('Number');
+              }}>
               <Text style={styles.menuText}>Number</Text>
             </MenuOption>
           </MenuOptions>
         </Menu>
-        <TouchableOpacity style={styles.removeButton}>
+        <TouchableOpacity
+          onPress={() => {
+            onDelete();
+          }}
+          style={styles.removeButton}>
           <Image
             resizeMode="cover"
             style={styles.image}
@@ -93,26 +151,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 5,
   },
-  modelButton: {
-    marginTop: 5,
-    height: 40,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#238CFD',
-    elevation: 1,
-    borderRadius: 10,
-  },
-  modelText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#ffffff',
-  },
   menuText: {
     fontSize: 18,
     color: '#666666',
     paddingHorizontal: 10,
-    paddingVertical: 10
+    paddingVertical: 10,
   },
   rowView: {
     flexDirection: 'row',
@@ -125,10 +168,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: '#999999',
     borderWidth: 1,
-    borderRadius: 5, 
+    borderRadius: 5,
     marginRight: 10,
     fontSize: 18,
     color: '#238CFD',
+  },
+  menuFiled: {
+    height: 40,
+    flex: 1,
+    borderColor: '#999999',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginRight: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#238CFD',
+  },
+  menuFiledText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#ffffff',
   },
   image: {
     width: 18,
@@ -138,11 +198,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   removeButtonText: {
     fontSize: 18,
     color: '#666666',
-    paddingHorizontal: 5
-  }
+    paddingHorizontal: 5,
+  },
 });

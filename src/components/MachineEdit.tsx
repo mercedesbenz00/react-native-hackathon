@@ -12,23 +12,24 @@ import DatePicker from 'react-native-date-picker';
 interface Props {
   type: any;
   data: Array<any>;
-  onChangeValue: (value: any) => void;
+  onChangeValue: (field: string, value: any) => void;
   onDelete: () => void;
 }
 
-const MemberEdit = ({type, data, onChangeValue, onDelete}: Props) => {
+const MachineEdit = ({type, data, onChangeValue, onDelete}: Props) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{type.titleField}</Text>
+      <Text style={styles.title}>{data[type.titleField] || 'UNNAMED'}</Text>
       {type.attributeTypes.map((item, index) => {
         if (item.type == 'Text') {
           return (
             <TextInput
+              key={index}
               style={styles.textInput}
               label={item.name}
               mode="outlined"
               value={data[item.name]}
-              onChangeText={text => onChangeValue(text)}
+              onChangeText={text => onChangeValue(item.name, text)}
             />
           );
         }
@@ -36,22 +37,25 @@ const MemberEdit = ({type, data, onChangeValue, onDelete}: Props) => {
         if (item.type == 'Number') {
           return (
             <TextInput
+              key={index}
               style={styles.textInput}
               label={item.name}
               mode="outlined"
               value={data[item.name]}
               keyboardType="numeric"
-              onChangeText={text => onChangeValue(text)}
+              onChangeText={text => onChangeValue(item.name, text)}
             />
           );
         }
         if (item.type == 'Checkbox') {
           return (
-            <View style={styles.checkbox}>
+            <View key={index} style={styles.checkbox}>
               <Switch
                 trackColor={{false: '#333333', true: 'green'}}
                 thumbColor={'#f4f3f4'}
-                onValueChange={value => {}}
+                onValueChange={value => {
+                  onChangeValue(item.name, value);
+                }}
                 value={data[item.name]}
               />
               <Text style={styles.checkboxText}>{item.name}</Text>
@@ -60,24 +64,36 @@ const MemberEdit = ({type, data, onChangeValue, onDelete}: Props) => {
         }
         if (item.type == 'Date') {
           return (
-            <View style={styles.datebox}>
+            <View key={index} style={styles.datebox}>
               <Text style={styles.checkboxText}>{item.name}:</Text>
               <Text style={styles.checkboxText}>{data[item.name]}:</Text>
-              {/* <DatePicker
+              <DatePicker
                 modal
                 open={true}
                 date={new Date()}
                 onConfirm={date => {}}
                 onCancel={() => {}}
-              /> */}
+              />
             </View>
           );
         }
       })}
+      <TouchableOpacity
+        onPress={() => {
+          onDelete();
+        }}
+        style={styles.removeButton}>
+        <Image
+          resizeMode="cover"
+          style={styles.image}
+          source={require('../assets/images/delete.png')}
+        />
+        <Text style={styles.removeButtonText}>REMOVE</Text>
+      </TouchableOpacity>
     </View>
   );
 };
-export default MemberEdit;
+export default MachineEdit;
 
 const styles = StyleSheet.create({
   container: {
@@ -106,13 +122,27 @@ const styles = StyleSheet.create({
     color: '#333333',
   },
   datebox: {
-    marginVertical: 7,
+    marginBottom: 7,
     flexDirection: 'row',
     alignItems: 'center',
     padding: 5,
     borderWidth: 1,
     borderColor: '#333333',
     borderRadius: 5,
-    backgroundColor: 'red'
+    height: 50
+  },
+  image: {
+    width: 18,
+    height: 18,
+  },
+  removeButton: {
+    marginVertical: 7,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  removeButtonText: {
+    fontSize: 18,
+    color: '#666666',
+    paddingHorizontal: 5,
   },
 });
