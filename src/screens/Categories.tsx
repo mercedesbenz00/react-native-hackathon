@@ -30,7 +30,7 @@ const machineTypes = [
     ],
   }
 ];
-const machines= {
+const machinesByHash= {
   test1: [
     {
       model:'fefffe', 
