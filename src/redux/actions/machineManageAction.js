@@ -39,3 +39,12 @@ export function deleteMachine(index) {
   };
 }
 
+export function changeTypeField(type_id) {
+  return {
+    type: 'CHANGE_TYPE_FIELD',
+    type_id: type_id,
+    titleField: titleField
+  };
+}
+
+

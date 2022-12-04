@@ -17,6 +17,11 @@ const machineManageReducer = (state = initialState, action) => {
             machineTypeUniqueIndex++;
             let newMachineType = action.payload;
             newMachineType.id = machineTypeUniqueIndex.toString();
+            if (!machineType.titleField) {
+                if (machineType.attributeTypes.length > 0) {
+                    machineType.titleField = machineType.attributeTypes[0].name;
+                }
+            }
             return {
                 ...state,
                 machineTypes: [ ...state.machineTypes, newMachineType],
@@ -31,6 +36,17 @@ const machineManageReducer = (state = initialState, action) => {
             return {
                 ...state,
                 machineTypes: updatedItems,
+            };
+        case "CHANGE_TYPE_FIELD":
+            const newMachineTypes = state.machineTypes.map(item => {
+                if(item.id === action.type_id){
+                  return { ...item, titleField: action.titleField }
+                }
+                return item
+              })
+            return {
+                ...state,
+                machineTypes: newMachineTypes,
             };
         case "DELETE_MACHINE_TYPE":
             const items = state.machineTypes.filter(item => {
