@@ -2,7 +2,12 @@ import React from 'react';
 import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import AttributeEditBox from './AttributeEditBox';
-import {Menu, MenuOption, MenuOptions, MenuTrigger} from "react-native-popup-menu";
+import {
+  Menu,
+  MenuOption,
+  MenuOptions,
+  MenuTrigger,
+} from 'react-native-popup-menu';
 
 interface Props {
   title: string;
@@ -37,14 +42,33 @@ const CategoryEdit = ({title, attributes, onItemDelete, onDelete}: Props) => {
       <TouchableOpacity style={styles.modelButton}>
         <Text style={styles.modelText}>TITLE FILED: MODEL</Text>
       </TouchableOpacity>
-      <Menu>
-      <MenuTrigger text='Select action' />
-      <MenuOptions>
-        <MenuOption onSelect={() =>{}} >
-          <Text style={styles.menuText}>Delete</Text>
-        </MenuOption>
-      </MenuOptions>
-    </Menu>
+      <View style={styles.rowView}>
+        <Menu style={styles.menu}>
+          <MenuTrigger text="ADD NEW FIELD" />
+          <MenuOptions>
+            <MenuOption onSelect={() => {}}>
+              <Text style={styles.menuText}>Text</Text>
+            </MenuOption>
+            <MenuOption onSelect={() => {}}>
+              <Text style={styles.menuText}>Checkbox</Text>
+            </MenuOption>
+            <MenuOption onSelect={() => {}}>
+              <Text style={styles.menuText}>Date</Text>
+            </MenuOption>
+            <MenuOption onSelect={() => {}}>
+              <Text style={styles.menuText}>Number</Text>
+            </MenuOption>
+          </MenuOptions>
+        </Menu>
+        <TouchableOpacity style={styles.removeButton}>
+          <Image
+            resizeMode="cover"
+            style={styles.image}
+            source={require('../assets/images/delete.png')}
+          />
+          <Text style={styles.removeButtonText}>REMOVE</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -82,10 +106,43 @@ const styles = StyleSheet.create({
   modelText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#ffffff'
+    color: '#ffffff',
   },
   menuText: {
     fontSize: 18,
-    color: '#ffffff'
+    color: '#666666',
+    paddingHorizontal: 10,
+    paddingVertical: 10
+  },
+  rowView: {
+    flexDirection: 'row',
+    marginTop: 10,
+  },
+  menu: {
+    height: 40,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: '#999999',
+    borderWidth: 1,
+    borderRadius: 5, 
+    marginRight: 10,
+    fontSize: 18,
+    color: '#238CFD',
+  },
+  image: {
+    width: 18,
+    height: 18,
+  },
+  removeButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  removeButtonText: {
+    fontSize: 18,
+    color: '#666666',
+    paddingHorizontal: 5
   }
 });

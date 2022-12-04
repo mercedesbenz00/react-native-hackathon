@@ -1,61 +1,51 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, ScrollView} from 'react-native';
-import {TextInput} from 'react-native-paper';
-import AttributeEditBox from '../components/AttributeEditBox';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 import CategoryEdit from '../components/CategoryEdit';
-const dummy = [
+const machineTypes = [
   {
-    title: 'adfrefe',
+    title: 'test1',
     type: [
       {
-        type: 'number',
-        name: 'type1',
+        type: 'Text',
+        name: 'model',
       },
       {
-        type: 'number',
-        name: 'type2',
+        type: 'Number',
+        name: 'weight',
       },
       {
-        type: 'number',
-        name: 'type3',
+        type: 'Checkbox',
+        name: 'tested',
       },
       {
-        type: 'number',
-        name: 'type4',
+        type: 'Date',
+        name: 'buy_Date',
       },
     ],
-    data: [
-        {field: 'type1', value: ''}
-    ]
-  },
-  {
-    title: 'adfrefe',
-    type: [
-      {
-        type: 'number',
-        name: 'sadfefef',
-      },
-      {
-        type: 'number',
-        name: 'sadfefef',
-      },
-      {
-        type: 'number',
-        name: 'sadfefef',
-      },
-      {
-        type: 'number',
-        name: 'sadfefef',
-      },
-    ],
-  },
+  }
 ];
+const machines= {
+  test1: [
+    {
+      model:'fefffe', 
+      weight: 42443,
+      tested: true,
+      buy_Date: '2019-3-10'
+    }
+  ],
+}
 
 const Categories = () => {
   return (
     <View style={styles.container}>
-      <ScrollView>
-        {dummy.map((item, index) => {
+      <ScrollView style={styles.scrollview}>
+        {machineTypes.map((item, index) => {
           return (
             <CategoryEdit
               title={item.title}
@@ -67,6 +57,11 @@ const Categories = () => {
           );
         })}
       </ScrollView>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>ADD NEW CATEGORY</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -76,6 +71,24 @@ export default Categories;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 10,
+  },
+  scrollview: {flex: 1},
+  button: {
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#238CFD',
+    borderRadius: 10,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: '#ffffff',
+    fontWeight: 'bold',
+  },
+  buttonContainer: {
+    height: 80,
+    justifyContent: 'center',
     padding: 10,
   },
 });
