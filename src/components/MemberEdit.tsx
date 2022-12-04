@@ -5,10 +5,11 @@ import {TextInput} from 'react-native-paper';
 interface Props {
   type: Array<any>;
   data: Array<any>;
+  onChangeValue: (value: any) => void;
   onDelete: () => void;
 }
 
-const MemberEdit = ({type, data, onDelete}: Props) => {
+const MemberEdit = ({type, data, onChangeValue, onDelete}: Props) => {
   return (
     <View style={styles.container}>
       {type.map((item, index) => {
@@ -16,25 +17,25 @@ const MemberEdit = ({type, data, onDelete}: Props) => {
           return (
             <TextInput
               style={styles.textInput}
-              label={data[]}
+              label={item.name}
               mode="outlined"
-              value={text}
+              value={data[item.name]}
+              onChangeText={text => onChangeValue(text)}
+            />
+          );
+        }
+        if (item.type == 'Number') {
+          return (
+            <TextInput
+              style={styles.textInput}
+              label={item.name}
+              mode="outlined"
+              value={data[item.name]}
               onChangeText={text => onChangeValue(text)}
             />
           );
         }
       })}
-
-      <TouchableOpacity style={styles.typeButton}>
-        <Text style={styles.type}>{type}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.imageButton} onPress={onDelete}>
-        <Image
-          resizeMode="cover"
-          style={styles.image}
-          source={require('../assets/images/delete.png')}
-        />
-      </TouchableOpacity>
     </View>
   );
 };
