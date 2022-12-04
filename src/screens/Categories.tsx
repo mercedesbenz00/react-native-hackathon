@@ -30,6 +30,7 @@ const machineTypes = [
         name: 'buy_Date',
       },
     ],
+
   }
 ];
 const machines= {

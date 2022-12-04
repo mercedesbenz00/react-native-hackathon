@@ -10,10 +10,12 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^6.7.1",
     "@react-navigation/drawer": "^6.5.3",
     "@react-navigation/native": "^6.0.16",
     "react": "18.1.0",
     "react-native": "0.70.6",
+    "react-native-date-picker": "^4.2.6",
     "react-native-gesture-handler": "^2.8.0",
     "react-native-paper": "^4.12.5",
     "react-native-popup-menu": "^0.16.1",

@@ -1,9 +1,16 @@
 import React from 'react';
-import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  Switch,
+} from 'react-native';
 import {TextInput} from 'react-native-paper';
-
+import DatePicker from 'react-native-date-picker';
 interface Props {
-  type: Array<any>;
+  type: any;
   data: Array<any>;
   onChangeValue: (value: any) => void;
   onDelete: () => void;
@@ -12,7 +19,8 @@ interface Props {
 const MemberEdit = ({type, data, onChangeValue, onDelete}: Props) => {
   return (
     <View style={styles.container}>
-      {type.map((item, index) => {
+      <Text style={styles.title}>{type.titleField}</Text>
+      {type.attributeTypes.map((item, index) => {
         if (item.type == 'Text') {
           return (
             <TextInput
@@ -24,6 +32,7 @@ const MemberEdit = ({type, data, onChangeValue, onDelete}: Props) => {
             />
           );
         }
+
         if (item.type == 'Number') {
           return (
             <TextInput
@@ -31,8 +40,37 @@ const MemberEdit = ({type, data, onChangeValue, onDelete}: Props) => {
               label={item.name}
               mode="outlined"
               value={data[item.name]}
+              keyboardType="numeric"
               onChangeText={text => onChangeValue(text)}
             />
+          );
+        }
+        if (item.type == 'Checkbox') {
+          return (
+            <View style={styles.checkbox}>
+              <Switch
+                trackColor={{false: '#333333', true: 'green'}}
+                thumbColor={'#f4f3f4'}
+                onValueChange={value => {}}
+                value={data[item.name]}
+              />
+              <Text style={styles.checkboxText}>{item.name}</Text>
+            </View>
+          );
+        }
+        if (item.type == 'Date') {
+          return (
+            <View style={styles.checkbox}>
+              <Text style={styles.checkboxText}>{item.name}:</Text>
+              <Text style={styles.checkboxText}>{data[item.name]}:</Text>
+              <DatePicker
+                modal
+                open={true}
+                date={new Date()}
+                onConfirm={date => {}}
+                onCancel={() => {}}
+              />
+            </View>
           );
         }
       })}
@@ -43,37 +81,28 @@ export default MemberEdit;
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 5,
+    marginVertical: 7,
     width: '100%',
-    flexDirection: 'row',
-    paddingHorizontal: 5,
-    alignItems: 'center',
-  },
-  image: {
-    width: 24,
-    height: 24,
-  },
-  imageButton: {
-    width: 32,
-    height: 32,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  type: {
-    color: '#238CFD',
-    fontSize: 24,
-  },
-  typeButton: {
-    marginTop: 5,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#999999',
+    padding: 10,
+    backgroundColor: '#ffffff',
     borderRadius: 5,
-    marginHorizontal: 5,
-    elevation: 1,
   },
-  textInput: {flex: 1},
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333333',
+    padding: 5,
+  },
+  textInput: {marginTop: 5},
+  checkbox: {
+    marginVertical: 7,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 5,
+  },
+  checkboxText: {
+    marginLeft: 10,
+    fontSize: 18,
+    color: '#333333',
+  },
 });
