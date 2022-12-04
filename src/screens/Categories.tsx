@@ -9,8 +9,10 @@ import {
 import CategoryEdit from '../components/CategoryEdit';
 const machineTypes = [
   {
-    title: 'test1',
-    type: [
+    id: 1,
+    categoryName: 'test1',
+    titleField: 'model',
+    attributeTypes: [
       {
         type: 'Text',
         name: 'model',
@@ -30,8 +32,8 @@ const machineTypes = [
     ],
   }
 ];
-const machinesByHash= {
-  test1: [
+const machines= {
+  1: [
     {
       model:'fefffe', 
       weight: 42443,
