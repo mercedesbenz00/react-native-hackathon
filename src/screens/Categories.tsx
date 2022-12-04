@@ -50,8 +50,8 @@ const Categories = () => {
         {machineTypes.map((item, index) => {
           return (
             <CategoryEdit
-              title={item.title}
-              attributes={item.type}
+              title={item.categoryName}
+              attributes={item.attributeTypes}
               onItemDelete={index => {}}
               onAddNewItem={() => {}}
               onDelete={() => {}}
