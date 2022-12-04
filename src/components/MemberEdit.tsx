@@ -60,16 +60,16 @@ const MemberEdit = ({type, data, onChangeValue, onDelete}: Props) => {
         }
         if (item.type == 'Date') {
           return (
-            <View style={styles.checkbox}>
+            <View style={styles.datebox}>
               <Text style={styles.checkboxText}>{item.name}:</Text>
               <Text style={styles.checkboxText}>{data[item.name]}:</Text>
-              <DatePicker
+              {/* <DatePicker
                 modal
                 open={true}
                 date={new Date()}
                 onConfirm={date => {}}
                 onCancel={() => {}}
-              />
+              /> */}
             </View>
           );
         }
@@ -104,5 +104,15 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 18,
     color: '#333333',
+  },
+  datebox: {
+    marginVertical: 7,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 5,
+    borderWidth: 1,
+    borderColor: '#333333',
+    borderRadius: 5,
+    backgroundColor: 'red'
   },
 });
